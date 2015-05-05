@@ -10,10 +10,7 @@ import com.manywho.services.timer.service.services.SchedulerService;
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +36,10 @@ public class WaitController extends AbstractController {
         WaitRelativeRequest waitRelativeRequest = this.parseInputs(serviceRequest, WaitRelativeRequest.class);
 
         List<Date> dates = new PrettyTimeParser().parse(waitRelativeRequest.getSchedule());
+
+        if (dates.isEmpty()) {
+            throw new BadRequestException("An invalid schedule was given");
+        }
 
         return scheduleWait(serviceRequest, dates.get(0));
     }

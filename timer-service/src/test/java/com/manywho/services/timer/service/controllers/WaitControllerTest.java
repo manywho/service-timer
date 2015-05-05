@@ -124,6 +124,7 @@ public class WaitControllerTest extends JerseyTest {
         ServiceResponse serviceResponse = response.readEntity(ServiceResponse.class);
 
         Assert.assertEquals(400, response.getStatus());
-        Assert.assertTrue(serviceResponse.getRootFaults().containsKey("schedule"));
+        Assert.assertTrue(serviceResponse.getRootFaults().containsKey("error"));
+        Assert.assertTrue(serviceResponse.getRootFaults().containsValue("An invalid schedule was given"));
     }
 }
