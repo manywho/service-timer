@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<project name="manywho-service-timer" basedir="." default="generate-properties">
+    <target name="generate-properties" description="Generate the properties file from variables on Bamboo">
+        <propertyfile file="timer-service/src/main/resources/quartz.properties">
+            <entry key="org.quartz.dataSource.service.URL" value="${database.url}"/>
+            <entry key="org.quartz.dataSource.service.user" value="${database.username}"/>
+            <entry key="org.quartz.dataSource.service.password" value="${database.password}"/>
+        </propertyfile>
+        <propertyfile file="timer-worker/src/main/resources/quartz.properties">
+            <entry key="org.quartz.dataSource.service.URL" value="${database.url}"/>
+            <entry key="org.quartz.dataSource.service.user" value="${database.username}"/>
+            <entry key="org.quartz.dataSource.service.password" value="${database.password}"/>
+        </propertyfile>
+    </target>
+</project>
