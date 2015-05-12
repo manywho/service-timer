@@ -36,7 +36,7 @@ public class WaitJob implements Job {
                 setToken(context.getMergedJobDataMap().getString("token"));
             }});
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("An exception occurred", e);
         }
     }
 }
