@@ -27,6 +27,8 @@ public class WaitJob implements Job {
         try {
             AuthenticatedWho authenticatedWho = new ObjectMapperProvider().provide().readValue(context.getMergedJobDataMap().getString("authenticatedWho"), AuthenticatedWho.class);
 
+            LOGGER.info("Sending the response with token %s back to ManyWho", context.getMergedJobDataMap().getString("token"));
+
             new RunService().sendResponse(null, authenticatedWho, tenantId, callbackUri, new ServiceResponse() {{
                 setInvokeType(InvokeType.Forward);
                 setOutputs(new EngineValueCollection() {{
@@ -36,7 +38,7 @@ public class WaitJob implements Job {
                 setToken(context.getMergedJobDataMap().getString("token"));
             }});
         } catch (Exception e) {
-            LOGGER.error("An exception occurred", e);
+            LOGGER.error(String.format("An exception occurred while executing the job %s", context.getJobDetail().getKey()), e);
         }
     }
 }

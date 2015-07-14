@@ -37,9 +37,11 @@ public class SchedulerService {
                 .build();
 
         try {
+            LOGGER.info("Sending the job %s with trigger %s to the scheduler", jobDetail.getKey(), trigger.getKey());
+
             scheduler.scheduleJob(jobDetail, trigger);
         } catch (Exception e) {
-            LOGGER.error("An error occurred while scheduling a WAIT job", e);
+            LOGGER.error(String.format("An error occurred while sending the job %s with trigger %s to the scheduler", jobDetail.getKey(), trigger.getKey()), e);
 
             throw e;
         }
