@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class WaitAbsoluteRequest {
     @Property("Schedule")
-    @NotNull
+    @NotNull(message = "A valid schedule must be given")
     private Date schedule;
 
     public Date getSchedule() {

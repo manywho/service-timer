@@ -2,17 +2,21 @@ package com.manywho.services.timer.service.controllers;
 
 import com.manywho.sdk.entities.run.EngineValue;
 import com.manywho.sdk.entities.run.EngineValueCollection;
+import com.manywho.sdk.entities.run.ServiceProblem;
 import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
 import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.providers.ObjectMapperProvider;
+import com.manywho.services.timer.service.stubs.HttpServletRequestFactory;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
@@ -30,7 +34,12 @@ public class WaitControllerTest extends JerseyTest {
         enable(TestProperties.DUMP_ENTITY);
         enable(TestProperties.LOG_TRAFFIC);
 
-        return new com.manywho.services.timer.service.Application();
+        return new com.manywho.services.timer.service.Application().register(new AbstractBinder() {
+            @Override
+            protected void configure() {
+                bindFactory(HttpServletRequestFactory.class).to(HttpServletRequest.class);
+            }
+        });
     }
 
     @Override
@@ -77,10 +86,10 @@ public class WaitControllerTest extends JerseyTest {
                 .buildPost(Entity.json(serviceRequest))
                 .invoke();
 
-        ServiceResponse serviceResponse = response.readEntity(ServiceResponse.class);
+        ServiceProblem serviceProblem = response.readEntity(ServiceProblem.class);
 
         Assert.assertEquals(400, response.getStatus());
-        Assert.assertTrue(serviceResponse.getRootFaults().containsKey("schedule"));
+        Assert.assertTrue(serviceProblem.getMessage().contains("A valid schedule must be given"));
     }
 
     @Test
@@ -122,10 +131,9 @@ public class WaitControllerTest extends JerseyTest {
                 .buildPost(Entity.json(serviceRequest))
                 .invoke();
 
-        ServiceResponse serviceResponse = response.readEntity(ServiceResponse.class);
+        ServiceProblem serviceProblem = response.readEntity(ServiceProblem.class);
 
         Assert.assertEquals(400, response.getStatus());
-        Assert.assertTrue(serviceResponse.getRootFaults().containsKey("error"));
-        Assert.assertTrue(serviceResponse.getRootFaults().containsValue("An invalid schedule was given"));
+        Assert.assertTrue(serviceProblem.getMessage().equals("An invalid schedule was given"));
     }
 }
