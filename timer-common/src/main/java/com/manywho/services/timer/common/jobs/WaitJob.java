@@ -8,6 +8,7 @@ import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.providers.ObjectMapperProvider;
+import com.manywho.sdk.utils.AuthorizationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.quartz.Job;
@@ -25,7 +26,7 @@ public class WaitJob implements Job {
         LOGGER.info("Firing job with ID: {}", context.getFireInstanceId());
 
         try {
-            AuthenticatedWho authenticatedWho = new ObjectMapperProvider().provide().readValue(context.getMergedJobDataMap().getString("authenticatedWho"), AuthenticatedWho.class);
+            AuthenticatedWho authenticatedWho = AuthorizationUtils.deserialize(context.getMergedJobDataMap().getString("authenticatedWho"));
 
             LOGGER.info("Sending the response with token %s back to ManyWho", context.getMergedJobDataMap().getString("token"));
 

@@ -1,7 +1,7 @@
 package com.manywho.services.timer.service.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
+import com.manywho.sdk.utils.AuthorizationUtils;
 import com.manywho.services.timer.common.jobs.WaitJob;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,11 +17,8 @@ public class SchedulerService {
     @Inject
     private Scheduler scheduler;
 
-    @Inject
-    private ObjectMapper objectMapper;
-
     public void scheduleWait(Date schedule, AuthenticatedWho authenticatedWho, String tenantId, String callbackUri, String token) throws Exception {
-        String serializedAuthenticatedWho = objectMapper.writeValueAsString(authenticatedWho);
+        String serializedAuthenticatedWho = AuthorizationUtils.serialize(authenticatedWho);
 
         JobDetail jobDetail = JobBuilder.newJob(WaitJob.class)
                 .withIdentity(UUID.randomUUID().toString())
