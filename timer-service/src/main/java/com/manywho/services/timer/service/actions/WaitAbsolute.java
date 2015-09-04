@@ -24,7 +24,7 @@ public class WaitAbsolute extends AbstractAction {
     @Override
     public DescribeValueCollection getServiceInputs() {
         return new DescribeValueCollection() {{
-            add(new DescribeValue("Schedule", ContentType.DateTime, true));
+            add(new DescribeValue("Schedule", ContentType.String, true));
         }};
     }
 

@@ -27,7 +27,13 @@ public class WaitController extends AbstractController {
     public ServiceResponse absolute(ServiceRequest serviceRequest) throws Exception {
         WaitAbsoluteRequest waitAbsoluteRequest = this.parseInputs(serviceRequest, WaitAbsoluteRequest.class);
 
-        return scheduleWait(serviceRequest, waitAbsoluteRequest.getSchedule());
+        List<Date> dates = new PrettyTimeParser().parse(waitAbsoluteRequest.getSchedule());
+
+        if (dates.isEmpty()) {
+            throw new BadRequestException("An invalid schedule was given");
+        }
+
+        return scheduleWait(serviceRequest, dates.get(0));
     }
 
     @Path("/relative")
