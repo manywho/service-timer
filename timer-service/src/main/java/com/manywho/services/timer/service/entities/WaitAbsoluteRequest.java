@@ -2,18 +2,21 @@ package com.manywho.services.timer.service.entities;
 
 import com.manywho.sdk.services.annotations.Property;
 
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 public class WaitAbsoluteRequest {
-    @Property("Schedule")
+    @Property("schedule")
     @NotNull
-    private String schedule;
+    @Future
+    private Date schedule;
 
-    public String getSchedule() {
+    public Date getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(String schedule) {
+    public void setSchedule(Date schedule) {
         this.schedule = schedule;
     }
 }
