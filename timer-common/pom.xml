@@ -9,11 +9,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <dependencies>
-        <dependency>
-            <groupId>com.manywho</groupId>
-            <artifactId>sdk</artifactId>
-            <version>1.8.6</version>
-        </dependency>
     </dependencies>
     <artifactId>timer-common</artifactId>
 </project>
