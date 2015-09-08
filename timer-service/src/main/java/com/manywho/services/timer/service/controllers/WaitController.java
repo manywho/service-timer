@@ -4,6 +4,7 @@ import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
 import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.controllers.AbstractController;
+import com.manywho.services.timer.service.entities.WaitAbsoluteRequest;
 import com.manywho.services.timer.service.entities.WaitRelativeRequest;
 import com.manywho.services.timer.service.services.SchedulerService;
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
@@ -24,9 +25,8 @@ public class WaitController extends AbstractController {
     @Path("/absolute")
     @POST
     public ServiceResponse absolute(ServiceRequest serviceRequest) throws Exception {
-        //TODO change this to use parseInputs. Seems to be a bug with parseInputs and datetimes. Chenge this back to use entities when fixed
-        List<Date> schedule =  new PrettyTimeParser().parse(serviceRequest.getInputs().getContentValue("Schedule"));
-        return scheduleWait(serviceRequest, schedule.get(0));
+        WaitAbsoluteRequest waitAbsoluteRequest = this.parseInputs(serviceRequest, WaitAbsoluteRequest.class);
+        return scheduleWait(serviceRequest, waitAbsoluteRequest.getSchedule().toDate());
     }
 
     @Path("/relative")
@@ -37,7 +37,7 @@ public class WaitController extends AbstractController {
         List<Date> dates = new PrettyTimeParser().parse(waitRelativeRequest.getSchedule());
 
         if (dates.isEmpty()) {
-            throw new BadRequestException("An invalid schedule was given");
+            throw new Exception("An invalid schedule was given");
         }
 
         return scheduleWait(serviceRequest, dates.get(0));
