@@ -2,28 +2,22 @@ package com.manywho.services.timer.service.controllers;
 
 import com.manywho.sdk.entities.run.EngineValue;
 import com.manywho.sdk.entities.run.EngineValueCollection;
+import com.manywho.sdk.entities.run.ServiceProblem;
 import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
 import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.enums.InvokeType;
-import com.manywho.sdk.services.ServiceBinder;
-import com.manywho.sdk.services.listeners.ReflectionListener;
 import com.manywho.sdk.services.providers.ObjectMapperProvider;
-import com.manywho.services.timer.service.ApplicationBinder;
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class WaitControllerTest extends JerseyTest {
@@ -48,7 +42,7 @@ public class WaitControllerTest extends JerseyTest {
         ServiceRequest serviceRequest = new ServiceRequest() {{
             setCallbackUri("https://flow.manywho.com/api/run/1/response");
             setInputs(new EngineValueCollection() {{
-                add(new EngineValue("Schedule", ContentType.DateTime, LocalDateTime.now().plusSeconds(5).format(DateTimeFormatter.ofPattern("MM/dd/yyyy H:m:s a"))));
+                add(new EngineValue("Schedule", ContentType.DateTime, "2025-09-04T00:00:00.0000000+01:00"));
             }});
             setToken(randomToken);
         }};
@@ -64,24 +58,25 @@ public class WaitControllerTest extends JerseyTest {
     @Test
     public void testAbsoluteWithInvalidSchedule() throws Exception {
         String randomToken = UUID.randomUUID().toString();
+        final String ENDPOINT = "/wait/absolute";
 
         ServiceRequest serviceRequest = new ServiceRequest() {{
             setCallbackUri("https://flow.manywho.com/api/run/1/response");
             setInputs(new EngineValueCollection() {{
-                add(new EngineValue("Schedule", ContentType.DateTime, "THIS ISN'T A DATE, WUT"));
+                add(new EngineValue("Schedule", ContentType.DateTime, "1990-09-04T00:00:00.0000000+01:00"));
             }});
             setToken(randomToken);
         }};
 
-        Response response = target("wait/absolute")
+        Response response = target(ENDPOINT)
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .buildPost(Entity.json(serviceRequest))
                 .invoke();
 
-        ServiceResponse serviceResponse = response.readEntity(ServiceResponse.class);
 
-        Assert.assertEquals(400, response.getStatus());
-        Assert.assertTrue(serviceResponse.getRootFaults().containsKey("schedule"));
+        ServiceProblem serviceResponse = response.readEntity(ServiceProblem.class);
+        Assert.assertTrue(serviceResponse.getUri().equalsIgnoreCase(ENDPOINT));
+        Assert.assertTrue(serviceResponse.getMessage().contains("Validation errors"));
     }
 
     @Test
@@ -107,7 +102,7 @@ public class WaitControllerTest extends JerseyTest {
     @Test
     public void testRelativeWithInvalidSchedule() throws Exception {
         String randomToken = UUID.randomUUID().toString();
-
+        final String ENDPOINT = "/wait/relative";
         ServiceRequest serviceRequest = new ServiceRequest() {{
             setCallbackUri("https://flow.manywho.com/api/run/1/response");
             setInputs(new EngineValueCollection() {{
@@ -116,14 +111,13 @@ public class WaitControllerTest extends JerseyTest {
             setToken(randomToken);
         }};
 
-        Response response = target("wait/relative")
+        Response response = target(ENDPOINT)
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .buildPost(Entity.json(serviceRequest))
                 .invoke();
 
-        ServiceResponse serviceResponse = response.readEntity(ServiceResponse.class);
-
-        Assert.assertEquals(400, response.getStatus());
-        Assert.assertTrue(serviceResponse.getRootFaults().containsKey("schedule"));
+        ServiceProblem serviceResponse = response.readEntity(ServiceProblem.class);
+        Assert.assertTrue(serviceResponse.getUri().equalsIgnoreCase(ENDPOINT));
+        Assert.assertTrue(serviceResponse.getMessage().equalsIgnoreCase("An invalid schedule was given"));
     }
 }
