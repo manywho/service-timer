@@ -26,7 +26,8 @@ public class SchedulerService {
 
     public void scheduleWait(DateTime schedule, AuthenticatedWho authenticatedWho, String tenantId, String callbackUri, String token) throws Exception {
         if (Seconds.secondsBetween(DateTime.now(), schedule).isLessThan(Seconds.seconds(120))) {
-            throw new Exception("Creating wait intervals that are less than 120 seconds is not supported");
+            schedule = DateTime.now();
+            schedule.plusSeconds(120);
         }
 
         String serializedAuthenticatedWho = objectMapper.writeValueAsString(authenticatedWho);
