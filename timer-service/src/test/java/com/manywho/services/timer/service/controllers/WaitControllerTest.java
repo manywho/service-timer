@@ -86,7 +86,7 @@ public class WaitControllerTest extends JerseyTest {
         ServiceRequest serviceRequest = new ServiceRequest() {{
             setCallbackUri("https://flow.manywho.com/api/run/1/response");
             setInputs(new EngineValueCollection() {{
-                add(new EngineValue("Schedule", ContentType.String, "in 5 seconds"));
+                add(new EngineValue("Schedule", ContentType.String, "in 140 seconds"));
             }});
             setToken(randomToken);
         }};
