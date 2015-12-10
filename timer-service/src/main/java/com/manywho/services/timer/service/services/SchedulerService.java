@@ -1,6 +1,8 @@
 package com.manywho.services.timer.service.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.manywho.sdk.entities.run.ServiceProblem;
+import com.manywho.sdk.entities.run.ServiceProblemException;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.services.timer.common.jobs.WaitJob;
 import org.apache.logging.log4j.LogManager;
@@ -21,6 +23,12 @@ public class SchedulerService {
     private ObjectMapper objectMapper;
 
     public void scheduleWait(Date schedule, AuthenticatedWho authenticatedWho, String tenantId, String callbackUri, String token) throws Exception {
+        Date now = new Date();
+        Long dateDiff = Math.abs((schedule.getTime() - now.getTime()) / 1000);
+        if (dateDiff < 120) {
+            throw new ServiceProblemException("", 500, "Creating wait intervals that are less than 120 seconds is not supported");
+        }
+
         String serializedAuthenticatedWho = objectMapper.writeValueAsString(authenticatedWho);
 
         JobDetail jobDetail = JobBuilder.newJob(WaitJob.class)
