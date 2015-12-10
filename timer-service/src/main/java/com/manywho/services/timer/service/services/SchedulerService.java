@@ -27,7 +27,7 @@ public class SchedulerService {
     public void scheduleWait(DateTime schedule, AuthenticatedWho authenticatedWho, String tenantId, String callbackUri, String token) throws Exception {
         if (Seconds.secondsBetween(DateTime.now(), schedule).isLessThan(Seconds.seconds(120))) {
             schedule = DateTime.now();
-            schedule.plusSeconds(120);
+            schedule = schedule.plusSeconds(120);
         }
 
         String serializedAuthenticatedWho = objectMapper.writeValueAsString(authenticatedWho);
