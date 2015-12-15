@@ -7,6 +7,7 @@ import com.manywho.sdk.services.controllers.AbstractController;
 import com.manywho.services.timer.service.entities.WaitAbsoluteRequest;
 import com.manywho.services.timer.service.entities.WaitRelativeRequest;
 import com.manywho.services.timer.service.services.SchedulerService;
+import org.joda.time.DateTime;
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
 
 import javax.inject.Inject;
@@ -26,7 +27,7 @@ public class WaitController extends AbstractController {
     @POST
     public ServiceResponse absolute(ServiceRequest serviceRequest) throws Exception {
         WaitAbsoluteRequest waitAbsoluteRequest = this.parseInputs(serviceRequest, WaitAbsoluteRequest.class);
-        return scheduleWait(serviceRequest, waitAbsoluteRequest.getSchedule().toDate());
+        return scheduleWait(serviceRequest, waitAbsoluteRequest.getSchedule());
     }
 
     @Path("/relative")
@@ -40,10 +41,10 @@ public class WaitController extends AbstractController {
             throw new Exception("An invalid schedule was given");
         }
 
-        return scheduleWait(serviceRequest, dates.get(0));
+        return scheduleWait(serviceRequest, new DateTime(dates.get(0)));
     }
 
-    private ServiceResponse scheduleWait(ServiceRequest serviceRequest, Date schedule) throws Exception {
+    private ServiceResponse scheduleWait(ServiceRequest serviceRequest, DateTime schedule) throws Exception {
         schedulerService.scheduleWait(
                 schedule,
                 getAuthenticatedWho(),

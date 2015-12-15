@@ -1,10 +1,14 @@
 package com.manywho.services.timer.service.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.manywho.sdk.entities.run.ServiceProblem;
+import com.manywho.sdk.entities.run.ServiceProblemException;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.services.timer.common.jobs.WaitJob;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.Seconds;
 import org.quartz.*;
 
 import javax.inject.Inject;
@@ -20,7 +24,12 @@ public class SchedulerService {
     @Inject
     private ObjectMapper objectMapper;
 
-    public void scheduleWait(Date schedule, AuthenticatedWho authenticatedWho, String tenantId, String callbackUri, String token) throws Exception {
+    public void scheduleWait(DateTime schedule, AuthenticatedWho authenticatedWho, String tenantId, String callbackUri, String token) throws Exception {
+        if (Seconds.secondsBetween(DateTime.now(), schedule).isLessThan(Seconds.seconds(120))) {
+            schedule = DateTime.now();
+            schedule = schedule.plusSeconds(120);
+        }
+
         String serializedAuthenticatedWho = objectMapper.writeValueAsString(authenticatedWho);
 
         JobDetail jobDetail = JobBuilder.newJob(WaitJob.class)
@@ -33,7 +42,7 @@ public class SchedulerService {
 
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity(UUID.randomUUID().toString())
-                .startAt(schedule)
+                .startAt(schedule.toDate())
                 .build();
 
         try {

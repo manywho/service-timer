@@ -16,7 +16,7 @@ public class DescribeController {
 
     @Path("/")
     @POST
-    public DescribeServiceResponse describe() {
+    public DescribeServiceResponse describe() throws Exception {
         return new DescribeServiceBuilder()
                 .setProvidesLogic(true)
                 .setCulture(new Culture("EN", "US"))
