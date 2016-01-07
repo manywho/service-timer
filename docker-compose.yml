@@ -1,9 +1,9 @@
 service:
-  image: manywho/service-gotoassist:$IMAGE_TAG
+  image: manywho/service-timer:$IMAGE_TAG
   labels:
       io.rancher.scheduler.global: 'true'
 
 worker:
-  image: manywho/service-gotoassist-worker:$IMAGE_TAG
+  image: manywho/service-timer-worker:$IMAGE_TAG
   labels:
         io.rancher.scheduler.global: 'true'
