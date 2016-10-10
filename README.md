@@ -21,7 +21,7 @@ You will need to generate a configuration file for the service by running the pr
 $ ant -Ddatabase.url=database.company.net -Ddatabase.username=username -Ddatabase.password=password
 ```
 
-Now you can build and the runnable shaded JAR:
+Now you can build and the runnable shaded JARs:
 
 ```bash
 $ mvn clean package
@@ -61,7 +61,7 @@ $ java -jar timer-worker/target/timer-worker-1.0-SNAPSHOT.jar
 
 ## Contributing
 
-Contribution are welcome to the project - whether they are feature requests, improvements or bug fixes! Refer to 
+Contributions are welcome to the project - whether they are feature requests, improvements or bug fixes! Refer to 
 [CONTRIBUTING.md](CONTRIBUTING.md) for our contribution requirements.
 
 ## License
