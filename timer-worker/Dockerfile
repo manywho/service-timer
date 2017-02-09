@@ -1,7 +1,11 @@
-FROM jeanblanchard/java:8
+FROM maven:3-jdk-8-alpine
 
-CMD ["java", "-jar", "timer-worker-1.0-SNAPSHOT.jar"]
+RUN mkdir -p /usr/src/app
 
-WORKDIR /app
+WORKDIR /usr/src/app/timer-worker
 
-ADD timer-worker-1.0-SNAPSHOT.jar ./
+ADD ../ /usr/src/app
+
+RUN mvn install
+
+CMD ["java", "-Xmx250m", "-jar", "/usr/src/app/timer-worker/target/timer-worker-1.0-SNAPSHOT.jar"]
