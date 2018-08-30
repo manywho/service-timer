@@ -1,22 +1,19 @@
 package com.manywho.services.timer.service.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.manywho.sdk.entities.run.ServiceProblem;
-import com.manywho.sdk.entities.run.ServiceProblemException;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.services.timer.common.jobs.WaitJob;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 import org.quartz.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import java.util.Date;
 import java.util.UUID;
 
 public class SchedulerService {
-    private static final Logger LOGGER = LogManager.getLogger("com.manywho.services.timer");
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerService.class);
 
     @Inject
     private Scheduler scheduler;
