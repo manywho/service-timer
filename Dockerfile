@@ -5,7 +5,7 @@ ADD . /usr/src/app
 
 RUN mvn clean package
 
-FROM openjdk:10-jre-slim
+FROM openjdk:8-jre-slim
 
 # The name of the application's fat JAR
 ARG APPLICATION=service
