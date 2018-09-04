@@ -13,6 +13,7 @@
         <module>timer-service</module>
         <module>timer-worker</module>
         <module>timer-common</module>
+        <module>timer-migrator</module>
     </modules>
 
     <properties>
