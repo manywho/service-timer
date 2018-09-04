@@ -42,6 +42,11 @@
             <version>2.3.0</version>
         </dependency>
         <dependency>
+            <groupId>net.joelinn</groupId>
+            <artifactId>quartz-redis-jobstore</artifactId>
+            <version>1.1.13</version>
+        </dependency>
+        <dependency>
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
             <version>3.3.2</version>

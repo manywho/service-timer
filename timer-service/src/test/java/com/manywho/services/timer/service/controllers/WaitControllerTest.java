@@ -27,7 +27,7 @@ public class WaitControllerTest extends JerseyTest {
         enable(TestProperties.DUMP_ENTITY);
         enable(TestProperties.LOG_TRAFFIC);
 
-        return new com.manywho.services.timer.service.Application();
+        return new com.manywho.services.timer.service.Application(new ApplicationTestBinder());
     }
 
     @Override
