@@ -32,6 +32,7 @@
     </dependencies>
 
     <build>
+        <finalName>service-timer-service</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

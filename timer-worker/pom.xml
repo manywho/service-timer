@@ -20,6 +20,7 @@
     </dependencies>
 
     <build>
+        <finalName>service-timer-worker</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
