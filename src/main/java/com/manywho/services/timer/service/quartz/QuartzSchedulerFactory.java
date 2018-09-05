@@ -17,7 +17,7 @@ public class QuartzSchedulerFactory implements Factory<Scheduler> {
         Properties properties = new Properties();
         properties.setProperty("org.quartz.threadPool.threadCount", "3");
         properties.setProperty("org.quartz.jobStore.class", "net.joelinn.quartz.jobstore.RedisJobStore");
-        properties.setProperty("org.quartz.jobStore.host", System.getenv("QUARTZ_REDIS_HOST"));
+        properties.setProperty("org.quartz.jobStore.host", System.getenv("REDIS_URL"));
         properties.setProperty("org.quartz.jobStore.misfireThreshold", "10000");
 
         try {
