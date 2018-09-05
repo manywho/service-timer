@@ -1,4 +1,4 @@
-package com.manywho.services.timer.common.jobs.quartz;
+package com.manywho.services.timer.service.quartz;
 
 import org.glassfish.hk2.api.Factory;
 import org.quartz.Scheduler;

@@ -7,11 +7,8 @@ RUN mvn clean package
 
 FROM openjdk:8-jre-slim
 
-# The name of the application's fat JAR
-ARG APPLICATION=service
-
 WORKDIR /usr/src/app/target
 
-COPY --from=build /usr/src/app/timer-${APPLICATION}/target/service-timer-${APPLICATION}.jar /usr/src/app/target/application.jar
+COPY --from=build /usr/src/app/target/service-timer.jar /usr/src/app/target/service-timer.jar
 
-ENTRYPOINT ["java", "-jar", "/usr/src/app/target/application.jar"]
+ENTRYPOINT ["java", "-jar", "/usr/src/app/target/service-timer.jar"]

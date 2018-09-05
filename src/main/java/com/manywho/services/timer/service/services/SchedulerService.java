@@ -22,9 +22,9 @@ public class SchedulerService {
     private ObjectMapper objectMapper;
 
     public void scheduleWait(DateTime schedule, AuthenticatedWho authenticatedWho, String tenantId, String callbackUri, String token) throws Exception {
-        if (Seconds.secondsBetween(DateTime.now(), schedule).isLessThan(Seconds.seconds(120))) {
+        if (Seconds.secondsBetween(DateTime.now(), schedule).isLessThan(Seconds.seconds(10))) {
             schedule = DateTime.now();
-            schedule = schedule.plusSeconds(120);
+            schedule = schedule.plusSeconds(10);
         }
 
         String serializedAuthenticatedWho = objectMapper.writeValueAsString(authenticatedWho);

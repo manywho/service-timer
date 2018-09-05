@@ -14,6 +14,9 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This class needs to stay in this package, as Quartz serializes the entire class name into the job...
+ */
 public class WaitJob implements Job {
     private static final Logger LOGGER = LoggerFactory.getLogger(WaitJob.class);
 

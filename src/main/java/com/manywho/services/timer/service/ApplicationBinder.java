@@ -1,6 +1,6 @@
 package com.manywho.services.timer.service;
 
-import com.manywho.services.timer.common.jobs.quartz.QuartzSchedulerFactory;
+import com.manywho.services.timer.service.quartz.QuartzSchedulerFactory;
 import com.manywho.services.timer.service.services.SchedulerService;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.quartz.Scheduler;
