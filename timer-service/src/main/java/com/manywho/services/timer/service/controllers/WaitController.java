@@ -27,7 +27,7 @@ public class WaitController extends AbstractController {
     @POST
     public ServiceResponse absolute(ServiceRequest serviceRequest) throws Exception {
         WaitAbsoluteRequest waitAbsoluteRequest = this.parseInputs(serviceRequest, WaitAbsoluteRequest.class);
-        return scheduleWait(serviceRequest, waitAbsoluteRequest.getSchedule());
+        return scheduleWait(serviceRequest, waitAbsoluteRequest.getSchedule(), "absolute");
     }
 
     @Path("/relative")
@@ -41,13 +41,15 @@ public class WaitController extends AbstractController {
             throw new Exception("An invalid schedule was given");
         }
 
-        return scheduleWait(serviceRequest, new DateTime(dates.get(0)));
+        return scheduleWait(serviceRequest, new DateTime(dates.get(0)), "relative");
     }
 
-    private ServiceResponse scheduleWait(ServiceRequest serviceRequest, DateTime schedule) throws Exception {
+    private ServiceResponse scheduleWait(ServiceRequest serviceRequest, DateTime schedule, String type) throws Exception {
         schedulerService.scheduleWait(
+                type,
                 schedule,
                 getAuthenticatedWho(),
+                serviceRequest.getStateId(),
                 serviceRequest.getTenantId(),
                 serviceRequest.getCallbackUri(),
                 serviceRequest.getToken()
