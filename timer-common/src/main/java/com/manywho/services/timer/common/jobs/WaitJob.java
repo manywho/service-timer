@@ -22,7 +22,7 @@ public class WaitJob implements Job {
         String tenantId = context.getMergedJobDataMap().getString("tenantId");
         String callbackUri = context.getMergedJobDataMap().getString("callbackUri");
 
-        LOGGER.info("Firing job with ID: {}", context.getFireInstanceId());
+        LOGGER.info("Firing job with ID: {}", context.getJobDetail().getKey().getName());
 
         try {
             AuthenticatedWho authenticatedWho = new ObjectMapperProvider().provide().readValue(context.getMergedJobDataMap().getString("authenticatedWho"), AuthenticatedWho.class);
