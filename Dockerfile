@@ -1,14 +1,10 @@
-FROM maven:3-jdk-8-slim AS build
-
+FROM maven:slim AS build
 WORKDIR /usr/src/app
-ADD . /usr/src/app
-
+COPY src src
+COPY pom.xml pom.xml
 RUN mvn clean package
 
 FROM openjdk:8-jre-slim
-
-WORKDIR /usr/src/app/target
-
-COPY --from=build /usr/src/app/target/service-timer.jar /usr/src/app/target/service-timer.jar
-
-ENTRYPOINT ["java", "-jar", "/usr/src/app/target/service-timer.jar"]
+EXPOSE 8080
+COPY --from=build /usr/src/app/target/timer-1.0-SNAPSHOT.jar /usr/src/app/target/service.jar
+ENTRYPOINT ["java", "-jar", "/usr/src/app/target/service.jar"]

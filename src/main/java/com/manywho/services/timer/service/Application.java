@@ -34,6 +34,6 @@ public class Application extends BaseApplication {
     }
 
     public static void main(String[] args) {
-        startServer(new Application(), "api/timer/1");
+        startServer(new Application());
     }
 }
