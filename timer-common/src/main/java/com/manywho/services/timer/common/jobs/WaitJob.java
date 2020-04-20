@@ -8,21 +8,21 @@ import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.sdk.enums.ContentType;
 import com.manywho.sdk.enums.InvokeType;
 import com.manywho.sdk.services.providers.ObjectMapperProvider;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WaitJob implements Job {
-    private static final Logger LOGGER = LogManager.getLogger("com.manywho.services.timer");
+    private static final Logger LOGGER = LoggerFactory.getLogger(WaitJob.class);
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         String tenantId = context.getMergedJobDataMap().getString("tenantId");
         String callbackUri = context.getMergedJobDataMap().getString("callbackUri");
 
-        LOGGER.info("Firing job with ID: {}", context.getFireInstanceId());
+        LOGGER.info("Firing job with ID: {}", context.getJobDetail().getKey().getName());
 
         try {
             AuthenticatedWho authenticatedWho = new ObjectMapperProvider().provide().readValue(context.getMergedJobDataMap().getString("authenticatedWho"), AuthenticatedWho.class);
