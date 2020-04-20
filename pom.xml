@@ -11,13 +11,14 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <version.manywho.sdk>1.25.0</version.manywho.sdk>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.manywho.sdk</groupId>
             <artifactId>sdk-core</artifactId>
-            <version>1.25.0</version>
+            <version>${version.manywho.sdk}</version>
             <exclusions>
                 <exclusion>
                     <groupId>redis.clients</groupId>
@@ -28,7 +29,7 @@
         <dependency>
             <groupId>com.manywho.sdk</groupId>
             <artifactId>sdk-client</artifactId>
-            <version>1.25.0</version>
+            <version>${version.manywho.sdk}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
