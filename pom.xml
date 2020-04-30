@@ -24,7 +24,7 @@
         <dependency>
             <groupId>com.manywho</groupId>
             <artifactId>sdk</artifactId>
-            <version>1.18.2</version>
+            <version>1.25.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.logging.log4j</groupId>
