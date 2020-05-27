@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manywho.sdk.entities.security.AuthenticatedWho;
 import com.manywho.services.timer.common.jobs.WaitJob;
 import org.joda.time.DateTime;
-import org.joda.time.Seconds;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +21,6 @@ public class SchedulerService {
     private ObjectMapper objectMapper;
 
     public void scheduleWait(String type, DateTime schedule, AuthenticatedWho authenticatedWho, String stateId, String tenantId, String callbackUri, String token) throws Exception {
-        if (Seconds.secondsBetween(DateTime.now(), schedule).isLessThan(Seconds.seconds(120))) {
-            schedule = DateTime.now();
-            schedule = schedule.plusSeconds(120);
-        }
-
         String serializedAuthenticatedWho = objectMapper.writeValueAsString(authenticatedWho);
 
         JobDetail jobDetail = JobBuilder.newJob(WaitJob.class)
