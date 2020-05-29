@@ -3,6 +3,7 @@ package com.manywho.services.timer.service.controllers;
 import com.manywho.sdk.entities.run.elements.config.ServiceRequest;
 import com.manywho.sdk.entities.run.elements.config.ServiceResponse;
 import com.manywho.sdk.enums.InvokeType;
+import com.manywho.sdk.services.annotations.AuthorizationRequired;
 import com.manywho.sdk.services.controllers.AbstractController;
 import com.manywho.services.timer.service.entities.WaitAbsoluteRequest;
 import com.manywho.services.timer.service.entities.WaitRelativeRequest;
@@ -23,6 +24,7 @@ public class WaitController extends AbstractController {
     @Inject
     private SchedulerService schedulerService;
 
+    @AuthorizationRequired
     @Path("/absolute")
     @POST
     public ServiceResponse absolute(ServiceRequest serviceRequest) throws Exception {
@@ -30,6 +32,7 @@ public class WaitController extends AbstractController {
         return scheduleWait(serviceRequest, waitAbsoluteRequest.getSchedule(), "absolute");
     }
 
+    @AuthorizationRequired
     @Path("/relative")
     @POST
     public ServiceResponse relative(ServiceRequest serviceRequest) throws Exception {
