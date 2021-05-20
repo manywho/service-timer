@@ -4,8 +4,9 @@ FROM maven:slim AS build
 WORKDIR /usr/src/app
 
 COPY pom.xml pom.xml
-RUN mvn dependency:resolve
-COPY src src
+COPY timer-service timer-service
+COPY timer-common timer-common
+COPY timer-worker timer-worker
 RUN mvn clean package
 
 FROM openjdk:jre-alpine
