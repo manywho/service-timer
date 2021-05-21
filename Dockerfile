@@ -1,19 +1,16 @@
-FROM maven:alpine AS build
+FROM maven:3-jdk-8-alpine
 
-FROM maven:slim AS build
+RUN mkdir -p /usr/src/app
+
 WORKDIR /usr/src/app
 
 COPY pom.xml pom.xml
 COPY timer-service timer-service
 COPY timer-common timer-common
 COPY timer-worker timer-worker
-RUN mvn clean package
+RUN mvn install
 
-FROM openjdk:jre-alpine
-
-FROM openjdk:8-jre-slim
 EXPOSE 8080
-
 
 COPY --from=build /usr/src/app/target/timer-service.jar /usr/src/app/target/timer-service.jar
 CMD java -Xmx300m -jar /usr/src/app/target/timer-service.jar
