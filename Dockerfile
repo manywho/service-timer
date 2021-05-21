@@ -8,7 +8,7 @@ COPY pom.xml pom.xml
 COPY timer-service timer-service
 COPY timer-common timer-common
 COPY timer-worker timer-worker
-RUN mvn install
+RUN mvn clean package -DskipTests=true
 
 EXPOSE 8080
 
