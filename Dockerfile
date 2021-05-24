@@ -1,4 +1,4 @@
-FROM maven:slim AS build
+FROM maven:3-jdk-8-alpine AS build
 
 RUN mkdir -p /usr/src/app
 
