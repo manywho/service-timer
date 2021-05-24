@@ -9,7 +9,7 @@ COPY timer-service timer-service
 COPY timer-common timer-common
 COPY timer-worker timer-worker
 RUN mvn clean package -DskipTests=true
-
+RUN mvn install -DskipTests=true
 FROM openjdk:8-jre-slim
 
 EXPOSE 8080
