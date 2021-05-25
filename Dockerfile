@@ -8,6 +8,8 @@ COPY pom.xml pom.xml
 COPY timer-service timer-service
 COPY timer-common timer-common
 COPY timer-worker timer-worker
+COPY target/timer-1.0-SNAPSHOT/WEB-INF/lib timer-service/lib
+COPY target/timer-1.0-SNAPSHOT/WEB-INF/lib timer-worker/lib
 RUN mvn clean package -DskipTests=true
 RUN mvn install -DskipTests=true
 FROM openjdk:8-jre-slim
