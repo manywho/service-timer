@@ -65,7 +65,7 @@
         <dependency>
             <groupId>com.manywho.sdk</groupId>
             <artifactId>sdk-test</artifactId>
-            <version>1.18.2</version>
+            <version>1.25.0</version>
             <scope>test</scope>
         </dependency>
 
